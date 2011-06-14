@@ -10,25 +10,22 @@ require_once _PS_ROOT_DIR_.'/modules/chamilo/nusoap/nusoap.php';
 
 class chamilo extends Module
 {
-    public function __construct() {
+    var $chamilo_url;
+    var $chamilo_security_key;
+    var $encrypt_method;
+    var $ip;
+    var $sha1;
+    
+    public function __construct() {       
         
-        $parameters = Configuration::getMultiple(array('PS_CHAMILO_URL','PS_CHAMILO_SECRET_KEY','PS_CHAMILO_ENCRYPT_METHOD','PS_CHAMILO_HOST_IP'));
-        
-        
-        //Chamilo configuration        
-        $this->chamilo_url          = $parameters['PS_CHAMILO_URL'];              // Your chamilo URL
-        $this->chamilo_security_key = $parameters['PS_CHAMILO_SECRET_KEY'];       // Check the main/inc/configuration.php file
-        $this->encrypt_method       = $parameters['PS_CHAMILO_ENCRYPT_METHOD'];   // Check the main/inc/configuration.php file        
-        $this->ip                   = $parameters['PS_CHAMILO_HOST_IP'];   // Check the main/inc/configuration.php file
+        $this->refreshChamiloValues();
         
         //Module configuration
          
         $this->name                 = 'chamilo';
         $this->tab                  = 'Tools';
         $this->version              = "0.1";        
-        $this->wsdl                 = $this->chamilo_url.'main/webservices/registration.soap.php?wsdl';
-        $this->sha1                 = sha1($this->ip.$this->chamilo_security_key);
-        
+        $this->wsdl                 = $this->chamilo_url.'main/webservices/registration.soap.php?wsdl';        
         $this->debug                = true;
         
         parent::__construct();
@@ -39,6 +36,19 @@ class chamilo extends Module
         $this->displayName = $this->l('Chamilo 1.8.x Module');
         $this->description = $this->l('Let users buy Chamilo courses in your PS platform!');
     }
+    
+    public function refreshChamiloValues() {
+        $parameters = Configuration::getMultiple(array('PS_CHAMILO_URL','PS_CHAMILO_SECRET_KEY','PS_CHAMILO_ENCRYPT_METHOD','PS_CHAMILO_HOST_IP'));
+                
+        //Chamilo configuration        
+        $this->chamilo_url          = $parameters['PS_CHAMILO_URL'];               // Your chamilo URL
+        $this->chamilo_security_key = $parameters['PS_CHAMILO_SECRET_KEY'];        // Check the main/inc/configuration.php file
+        $this->encrypt_method       = $parameters['PS_CHAMILO_ENCRYPT_METHOD'];    // Check the main/inc/configuration.php file        
+        $this->ip                   = $parameters['PS_CHAMILO_HOST_IP'];           // Check the main/inc/configuration.php file
+        $this->sha1                 = sha1($this->ip.$this->chamilo_security_key);
+   
+    }
+    
 
     function install() {
         if (!parent::install()  OR !$this->installDB()  OR 
@@ -71,8 +81,7 @@ class chamilo extends Module
     }
 
     function uninstall() {
-        if (!parent::uninstall() OR !$this->uninstallDB()
-            )
+        if (!parent::uninstall() OR !$this->uninstallDB())
             return false;
         return true;
     }
@@ -86,18 +95,18 @@ class chamilo extends Module
         $feature->delete();
         
         //Removing configuration                
-        Configuration::deleteByName('CHAMILO_FEATURE_ID');                        
+        Configuration::deleteByName('CHAMILO_FEATURE_ID');                       
 
         Configuration::deleteByName('PS_CHAMILO_URL');
         Configuration::deleteByName('PS_CHAMILO_SECRET_KEY');
         Configuration::deleteByName('PS_CHAMILO_ENCRYPT_METHOD');
-        Configuration::deleteByName('PS_CHAMILO_HOST_IP');
-        
+        Configuration::deleteByName('PS_CHAMILO_HOST_IP');        
         return true;
     }
     
     
- public function displayForm() {
+     public function displayForm() {
+         
          $client = new nusoap_client($this->wsdl, true);         
          $params = array('secret_key'=>$this->sha1);         
          $course_list = $client->call('WSListCourses', $params);
@@ -125,8 +134,7 @@ class chamilo extends Module
             $chamilo_host_ip     = $_SERVER['SERVER_ADDR'];
         }
         $output .='
-            <form action="'.$_SERVER['REQUEST_URI'].'" method="post">            
-                    
+            <form action="'.$_SERVER['REQUEST_URI'].'" method="post">
                     <div class="margin-form">
                         <br class="clear"/>
                         <label for="chamilo_url">'.$this->l('Chamilo URL').'&nbsp;&nbsp;</label><input size="50px" type="text" name="chamilo_url" value="'.stripslashes(html_entity_decode(Configuration::get('PS_CHAMILO_URL'))).'" /> 
@@ -156,18 +164,18 @@ class chamilo extends Module
         $output .= '</fieldset>';
         return $output;
     }
-
-    public function getContent() {
+    
+    public function getContent() {        
         $output = '<h2>'.$this->displayName.'</h2>';
-        if (Tools::isSubmit('submitChamilo')) {        
+        if (Tools::isSubmit('submitChamilo')) {
                 
-            Configuration::updateValue('PS_CHAMILO_URL', htmlentities(str_replace(array("\r\n", "\n"), '', Tools::getValue('chamilo_url'))));
-            Configuration::updateValue('PS_CHAMILO_SECRET_KEY', htmlentities(str_replace(array("\r\n", "\n"), '', Tools::getValue('chamilo_secret_key'))));
+            Configuration::updateValue('PS_CHAMILO_URL',            htmlentities(str_replace(array("\r\n", "\n"), '', Tools::getValue('chamilo_url'))));
+            Configuration::updateValue('PS_CHAMILO_SECRET_KEY',     htmlentities(str_replace(array("\r\n", "\n"), '', Tools::getValue('chamilo_secret_key'))));
             Configuration::updateValue('PS_CHAMILO_ENCRYPT_METHOD', htmlentities(str_replace(array("\r\n", "\n"), '', Tools::getValue('chamilo_encrypt_method'))));
-            Configuration::updateValue('PS_CHAMILO_HOST_IP', htmlentities(str_replace(array("\r\n", "\n"), '', Tools::getValue('chamilo_host_ip'))));
-            
+            Configuration::updateValue('PS_CHAMILO_HOST_IP',        htmlentities(str_replace(array("\r\n", "\n"), '', Tools::getValue('chamilo_host_ip'))));
+                        
             $output .= '<div class="conf confirm"><img src="../img/admin/ok.gif" alt="'.$this->l('Confirmation').'" />'.$this->l('Settings updated').'</div>';
-            
+                        
             /*
             $nbr = intval(Tools::getValue('nbr'));
                 if (!$nbr OR $nbr <= 0 OR !Validate::isInt($nbr))               
@@ -178,8 +186,11 @@ class chamilo extends Module
                 $output .= $this->displayError(implode(' ', $errors));
             else
                 $output .= $this->displayConfirmation($this->l('Settings updated'));*/
+         
         }
-        return $output.$this->displayForm();
+        $this->refreshChamiloValues();
+        return $output.$this->displayForm();    
+        
     }
     
     
@@ -405,8 +416,7 @@ class chamilo extends Module
      */
     public function hookNewOrder($params) {
         
-    }
-    
+    }    
     
     /**
      * Returns a difficult to guess password.
@@ -425,7 +435,4 @@ class chamilo extends Module
         }
         return $password;
     }
-        
-        
-   
 }
