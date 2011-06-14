@@ -1,4 +1,4 @@
-
+/* For licensing terms, see /license.txt */
 Instrucciones para instalar el plugin Prestashop-Chamilo
 
 Requisitos
