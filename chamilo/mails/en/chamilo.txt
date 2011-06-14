@@ -1,0 +1,10 @@
+Dear {firstname} {lastname},
+
+You are registered on {chamilo_url} with the following settings:
+
+Login    : {login}
+Password : {password}
+
+Regards,
+
+{site}

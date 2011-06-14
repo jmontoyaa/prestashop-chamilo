@@ -1,0 +1,10 @@
+Estimado {firstname} {lastname},
+
+Ud. está registrado a {chamilo_url} y puede ingresar con las siguiente credenciales:
+
+Usuario  : {login}
+Password : {password}
+
+Cordialmente,
+
+{site}

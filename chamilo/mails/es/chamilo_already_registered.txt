@@ -1,0 +1,7 @@
+Estimado {firstname} {lastname},
+
+Ud. ya se encuentra registrado a {chamilo_url} puede ingresar con su usuario y contraseña habitual.
+
+Cordialmente,
+
+{site}
