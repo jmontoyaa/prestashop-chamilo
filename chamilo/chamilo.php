@@ -26,7 +26,7 @@ class chamilo extends Module
         $this->tab                  = 'Tools';
         $this->version              = "0.1";        
         $this->wsdl                 = $this->chamilo_url.'main/webservices/registration.soap.php?wsdl';        
-        $this->debug                = true;
+        $this->debug                = false;
         
         parent::__construct();
         
