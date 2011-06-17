@@ -1,3 +1,4 @@
+<!-- /* For licensing terms, see /license.txt */ -->
 <!-- Sample display module -->
 <div class="sample-display">
 <h2>Content:</h2>

@@ -1,5 +1,5 @@
 <?php
-
+/* For licensing terms, see /license.txt */
 global $_MODULE;
 $_MODULE = array();
 $_MODULE['<{chamilo}prestashop>chamilo_e48627d53b0577b925bf7bd402a2e7f4'] = 'Módulo Chamilo 1.8.x';

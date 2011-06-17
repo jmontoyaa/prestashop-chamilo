@@ -1,4 +1,5 @@
 <?php
+/* For licensing terms, see /license.txt */
 /**
  * Prestahop - Chamilo 1.8.8 module integration
  * Sell Chamilo courses in your Prestashop 
