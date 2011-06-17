@@ -1,0 +1,7 @@
+Caro(a) {firstname} {lastname},
+
+Você já está registrado registrado em {chamilo_url} e pode acessar com seu usuário e senha habitual.
+
+Atenciosamente,
+
+{site}

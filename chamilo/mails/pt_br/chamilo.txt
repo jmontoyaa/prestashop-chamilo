@@ -1,0 +1,10 @@
+Caro(a) {firstname} {lastname},
+
+Você já está registrado registrado em {chamilo_url} com os seguintes dados:
+
+Login : {login}
+Senha : {password}
+
+Atenciosamente,
+
+{site}
