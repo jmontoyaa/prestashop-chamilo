@@ -304,7 +304,7 @@ class chamilo extends Module
                     'loginname'              => $login,                 // required
                     'password'               => $password,              // required, it's important to define the salt into an extra field param
                     'encrypt_method'         => $this->encrypt_method,  // required, check if the encrypt is the same than dokeos configuration
-                    'language'               => 'spanish',              // optional
+                    'language'               => 'english',              // optional
                     'phone'                  => '',                     // optional
                     'expiration_date'        => '0000-00-00 00:00:00',  // optional, follow the same format
                     'original_user_id_name'  => 'prestashop_customer_id',  //required, field name about original user id 
