@@ -1,0 +1,13 @@
+[2012-01-07] Version 1.2
+* README translated to English
+* Mails translated to French
+* Prestashop options translated to French
+* Default new users registration language set to English
+[2011-07-01] Version 1.1
+* License update
+[2011-04-01] Version 1.0
+* Automatic creation of Chamilo users
+* Automatic creation of user-course subscription in Chamilo (on purchases)
+* Creation of course-relation in Prestashop products
+* Configuration of Chamilo web service through Prestashop plugin settings page
+* Basic interface available in English and Spanish
