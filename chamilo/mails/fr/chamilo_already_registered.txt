@@ -1,7 +1,7 @@
-Dear {firstname} {lastname},
+Chère/Cher {firstname} {lastname},
 
-You are already registered in {chamilo_url} you can login with your usual credentials.
+Vous êtes déjà inscrit sur {chamilo_url}. Vous pouvez vous connecter avec votre compte normal.
 
-Regards,
+Cordialement,
 
 {site}

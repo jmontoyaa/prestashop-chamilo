@@ -1,10 +1,10 @@
-Dear {firstname} {lastname},
+Chère/Cher {firstname} {lastname},
 
-You are registered on {chamilo_url} with the following settings:
+Vous êtes inscrit(e) sur {chamilo_url} avec le compte suivant:
 
-Login    : {login}
-Password : {password}
+Nom d'utilisateur: {login}
+Mot de passe: {password}
 
-Regards,
+Cordialement,
 
 {site}
