@@ -83,6 +83,8 @@ $GLOBALS['_transient']['static']['nusoap_base']->globalDebugLevel = 9;
 * @version  $Id: nusoap.php,v 1.114 2007/11/06 15:17:46 snichol Exp $
 * @access   public
 */
+if(!class_exists('nusoap_base'))
+{
 class nusoap_base {
 	/**
 	 * Identification for HTTP headers.
@@ -889,7 +891,7 @@ class nusoap_base {
 		return $this->varDump($this);
 	}
 }
-
+}
 // XML Schema Datatype Helper Functions
 
 //xsd:dateTime helpers
@@ -901,6 +903,8 @@ class nusoap_base {
 * @param	boolean $utc Whether the time stamp is UTC or local
 * @access   public
 */
+if(!function_exists('timestamp_to_iso8601'))
+{
 function timestamp_to_iso8601($timestamp,$utc=true){
 	$datestr = date('Y-m-d\TH:i:sO',$timestamp);
 	if($utc){
@@ -922,13 +926,16 @@ function timestamp_to_iso8601($timestamp,$utc=true){
 		return $datestr;
 	}
 }
-
+}
 /**
 * convert ISO 8601 compliant date string to unix timestamp
 *
 * @param    string $datestr ISO 8601 compliant date string
 * @access   public
 */
+
+if(!function_exists('iso8601_to_timestamp'))
+{
 function iso8601_to_timestamp($datestr){
 	$eregStr =
 	'([0-9]{4})-'.	// centuries & years CCYY-
@@ -959,6 +966,7 @@ function iso8601_to_timestamp($datestr){
 		return false;
 	}
 }
+}
 
 /**
 * sleeps some number of microseconds
@@ -967,6 +975,8 @@ function iso8601_to_timestamp($datestr){
 * @access   public
 * @deprecated
 */
+if(!function_exists('usleepWindows'))
+{
 function usleepWindows($usec)
 {
 	$start = gettimeofday();
@@ -978,6 +988,7 @@ function usleepWindows($usec)
 		+ $stop['usec'] - $start['usec'];
 	}
 	while ($timePassed < $usec);
+}
 }
 
 ?><?php
@@ -992,6 +1003,8 @@ function usleepWindows($usec)
 * @version  $Id: nusoap.php,v 1.114 2007/11/06 15:17:46 snichol Exp $
 * @access public
 */
+if(!class_exists('nusoap_fault'))
+{
 class nusoap_fault extends nusoap_base {
 	/**
 	 * The fault code (client|server)
@@ -1026,6 +1039,7 @@ class nusoap_fault extends nusoap_base {
     * @param string $faultstring human readable error message
     * @param mixed $faultdetail detail, typically a string or array of string
 	*/
+	
 	function nusoap_fault($faultcode,$faultactor='',$faultstring='',$faultdetail=''){
 		parent::nusoap_base();
 		$this->faultcode = $faultcode;
@@ -1060,13 +1074,15 @@ class nusoap_fault extends nusoap_base {
 		return $return_msg;
 	}
 }
-
+}
 /**
  * Backward compatibility
  */
+if(!class_exists('soap_fault'))
+{
 class soap_fault extends nusoap_fault {
 }
-
+}
 ?><?php
 
 
@@ -1080,6 +1096,8 @@ class soap_fault extends nusoap_fault {
 * @version  $Id: nusoap.php,v 1.114 2007/11/06 15:17:46 snichol Exp $
 * @access   public
 */
+if(!class_exists('nusoap_xmlschema'))
+{
 class nusoap_xmlschema extends nusoap_base  {
 	
 	// files
@@ -1995,13 +2013,15 @@ class nusoap_xmlschema extends nusoap_base  {
 		$this->appendDebug($this->varDump($this->elements[ $attrs['name'] ]));
 	}
 }
-
+}
 /**
  * Backward compatibility
  */
+if(!class_exists('XMLSchema'))
+{
 class XMLSchema extends nusoap_xmlschema {
 }
-
+}
 ?><?php
 
 
@@ -2017,6 +2037,8 @@ class XMLSchema extends nusoap_xmlschema {
 * @version  $Id: nusoap.php,v 1.114 2007/11/06 15:17:46 snichol Exp $
 * @access   public
 */
+if(!class_exists('soapval'))
+{
 class soapval extends nusoap_base {
 	/**
 	 * The XML element name
@@ -2103,7 +2125,7 @@ class soapval extends nusoap_base {
 		return $this->value;
 	}
 }
-
+}
 
 
 ?><?php
@@ -2119,6 +2141,8 @@ class soapval extends nusoap_base {
 * @version  $Id: nusoap.php,v 1.114 2007/11/06 15:17:46 snichol Exp $
 * @access public
 */
+if(!class_exists('soap_transport_http'))
+{
 class soap_transport_http extends nusoap_base {
 
 	public $url = '';
@@ -3407,7 +3431,7 @@ class soap_transport_http extends nusoap_base {
 		return $cookie_str;
   }
 }
-
+}
 ?><?php
 
 
@@ -3422,6 +3446,8 @@ class soap_transport_http extends nusoap_base {
 * @version  $Id: nusoap.php,v 1.114 2007/11/06 15:17:46 snichol Exp $
 * @access   public
 */
+if(!class_exists('nusoap_server'))
+{
 class nusoap_server extends nusoap_base {
 	/**
 	 * HTTP headers of request
@@ -4471,13 +4497,15 @@ class nusoap_server extends nusoap_base {
             'bindingType'=>'http://schemas.xmlsoap.org/wsdl/soap/');
     }
 }
-
+}
 /**
  * Backward compatibility
  */
+if(!class_exists('soap_server'))
+{
 class soap_server extends nusoap_server {
 }
-
+}
 ?><?php
 
 
@@ -4491,6 +4519,8 @@ class soap_server extends nusoap_server {
 * @version  $Id: nusoap.php,v 1.114 2007/11/06 15:17:46 snichol Exp $
 * @access public 
 */
+if(!class_exists('wsdl'))
+{
 class wsdl extends nusoap_base {
 	// URL or filename of the root of this WSDL
     public $wsdl; 
@@ -6381,6 +6411,7 @@ class wsdl extends nusoap_base {
 		return true;
 	} 
 }
+}
 ?><?php
 
 
@@ -6394,6 +6425,8 @@ class wsdl extends nusoap_base {
 * @version  $Id: nusoap.php,v 1.114 2007/11/06 15:17:46 snichol Exp $
 * @access   public
 */
+if(!class_exists('nusoap_parser'))
+{
 class nusoap_parser extends nusoap_base {
 
 	public $xml = '';
@@ -7010,13 +7043,15 @@ class nusoap_parser extends nusoap_base {
 		}
 	}
 }
-
+}
 /**
  * Backward compatibility
  */
+if(!class_exists('soap_parser'))
+{
 class soap_parser extends nusoap_parser {
 }
-
+}
 ?><?php
 
 
@@ -7041,6 +7076,8 @@ class soap_parser extends nusoap_parser {
 * @version  $Id: nusoap.php,v 1.114 2007/11/06 15:17:46 snichol Exp $
 * @access   public
 */
+if(!class_exists('nusoap_client'))
+{
 class nusoap_client extends nusoap_base  {
 
 	public $username = '';				// Username for HTTP authentication
@@ -7985,12 +8022,15 @@ class nusoap_client extends nusoap_base  {
 		return true;
 	}
 }
-
+}
 if (!extension_loaded('soap')) {
 	/**
 	 *	For backwards compatiblity, define soapclient unless the PHP SOAP extension is loaded.
 	 */
+  if(!class_exists('soapclient'))
+  {
 	class soapclient extends nusoap_client {
+	}
 	}
 }
 ?>
